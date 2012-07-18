@@ -1,0 +1,78 @@
+<html>
+<head>
+<style type="text/css">
+html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+body {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+#top {
+    -webkit-box-flex: 1;
+}
+#text {
+    color: #999;
+    text-align: center;
+    font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold;
+background-color:#000000;
+}
+#bottom {
+    -webkit-box-flex: 1;
+
+background-color:#ffffff;
+}
+</style>
+
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.21/themes/base/jquery-ui.css" type="text/css" media="all" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js" type="text/javascript"></script>
+
+<script language="javascript">
+setInterval(function () {
+        $.getJSON('http://localhost:8081/u0/usta',function(data,status) {
+            
+            var obj = jQuery.parseJSON(data);
+            $('.usta').text(obj.filename);
+            var position = (obj.position / obj.length)*100;
+            $("#progressbar").progressbar({ value: position });
+          //  var position = ~~(obj.position / obj.length);
+            $('.filename').text("Current Clip: " + obj.filename);
+            $('.position').text("Position: "+ obj.position + "/"+ obj.length);
+        },'json');},100);
+
+ </script>
+<script type="text/javascript">
+function Producer(textStyle) {
+    this.textStyle = textStyle;
+}
+Producer.prototype.render = function(time) {
+    // Use em units which are proportional to font-size,
+    // which is being set to proportional to page render size.
+    // Vary x offset from -0.2 to 0.2.
+}
+function onLoad() {
+    var producer = new Producer();
+    webvfx.renderRequested.connect(producer, Producer.prototype.render);
+    webvfx.readyRender(true);
+}
+
+window.addEventListener("load", onLoad, false);
+</script>
+</head>
+<body>
+    <div id="top">
+ <div id="progressbar"></div>
+    <div id="status">
+        <div class="filename"></div>
+        <div class="position"></div>
+        <div class="playlist"></div>
+    </div>
+ </div>
+    <div id="text"></div>
+    <div id="bottom"></div>
+</body>
+</html>

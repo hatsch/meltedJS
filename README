@@ -1,0 +1,14 @@
+MELTED JS
+nodejs app to control the melted video server
+
+this app exposed a REST server on port 8081 that allows you to control the video server
+curl http://localhost:8081/u0/play
+
+there is also a small webserver attached. you can access a site  with  basic controls
+http://localhost:8080/melted_control.html
+
+
+in the examples directory there is another short html/JS that makes use of the mlt webvfx plugin.
+make sure that you instal the webvfx plugin first then you can use:
+melt webvfx:webvfx_producer.html 
+ 

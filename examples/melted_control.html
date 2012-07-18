@@ -1,0 +1,56 @@
+    <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.8.21/themes/base/jquery-ui.css" type="text/css" media="all" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
+<script src="http://code.jquery.com/ui/1.8.21/jquery-ui.min.js" type="text/javascript"></script>
+
+
+  
+  <STYLE media="screen, print" type="text/css">
+    div#progressbar {width: 360px;}
+</STYLE>
+  
+    <title>Melted Control Center</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+    setInterval(function () {
+        $.getJSON('http://localhost:8081/u0/usta',function(data,status) {
+            
+            var obj = jQuery.parseJSON(data);
+            $('.usta').text(obj.filename);
+            var position = (obj.position / obj.length)*100;
+            $("#progressbar").progressbar({ value: position });
+          //  var position = ~~(obj.position / obj.length);
+            $('.filename').text("Current Clip: " + obj.filename);
+            $('.position').text("Position: "+ obj.position + "/"+ obj.length);
+        },'json');},100);
+    
+    setInterval(function () {
+        $.getJSON('http://localhost:8081/u0/list',function(data,status) {
+            $('.playlist').text(data);
+        },'html');},1000);
+</script>
+    <img class="beginning" alt="beginning of playlist" src="gfx/beginning.png">
+    <img class="backward" alt="beginning of clip" src="gfx/backward.png">
+    <img class="play" alt="play" src="gfx/play.png" onclick="$.get('http://localhost:8081/u0/play',function(data,status) {},'html');">
+    <img class="pause" alt="pause" src="gfx/pause.png" onclick="$.get('http://localhost:8081/u0/pause',function(data,status) {},'html');">
+    <img class="stop" alt="stop" src="gfx/stop.png" onclick="$.get('http://localhost:8081/u0/stop',function(data,status) {},'html');">
+    <img class="forward" alt="end of clip" src="gfx/forward.png">
+    <img class="end" alt="end of playlist" src="gfx/end.png">
+    
+    <div id="progressbar"></div>
+    <div id="status">
+        <div class="filename"></div>
+        <div class="position"></div>
+        <div class="playlist"></div>
+    </div>
+</body>
+</html>
